@@ -199,6 +199,10 @@ function getMarketInformation(){
     if(!err){
       if(!result["error"]){
         var return_data = result["result"].substring(2); // Remove the 0x
+	      if(return_data.length < 2){
+		      // This is an anomaly, should not happen
+		      console.log("Error fetching blockchain data, request data: 0x"+contract_getRoundInfo+roundHex+", return data: 0x"+return_data);
+	      }
 
         // Obtain round information
         // startPriceWei (uint256), endPriceWei (uint256), startTime (uint256), endTime (uint256), totalCallPotWei (uint256), totalPutPotWei (uint256), totalcalltickets (uint256), totalputticket (uint256)
@@ -302,6 +306,10 @@ function getTopRound(){
 			if(!err){
 				if(!result["error"]){
 					var return_data = result["result"].substring(2); // Remove the 0x
+					if(return_data.length < 2){
+					      // This is an anomaly, should not happen
+					      console.log("Error fetching blockchain data, request data: 0x"+contract_getCurrentRound+", return data: 0x"+return_data);
+				     	 }
 
 					// Obtain the current round number
 					var roundNum = new BigNumber('0x'+return_data.substring(0,64));
@@ -344,8 +352,9 @@ function getUserInfo(callRefresh){
 			if(!result["error"]){
 				var return_data = result["result"].substring(2); // Remove the 0x
 				if(return_data.length < 2){
-					alert('0x'+contract_getUserInfo+roundHex+formatted_userAddress);
-				}
+				      // This is an anomaly, should not happen
+				      console.log("Error fetching blockchain data, request data: 0x"+contract_getUserInfo+roundHex+formatted_userAddress+", return data: 0x"+return_data);
+				 }
 
 				// Obtain the current round number
 		    //_user.numCallTickets, _user.numPutTickets, balance
@@ -420,6 +429,10 @@ function getTicketCost(){
 		if(!err){
 			if(!result["error"]){
 				var return_data = result["result"].substring(2); // Remove the 0x
+				if(return_data.length < 2){
+				      // This is an anomaly, should not happen
+				      console.log("Error fetching blockchain data, request data: 0x"+contract_getTicketCost+timeHex+", return data: 0x"+return_data);
+				}
 
 				// Obtain the current round number
 				var ticket_cost_wei = new BigNumber('0x'+return_data.substring(0,64));
