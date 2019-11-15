@@ -1,8 +1,11 @@
 # Simple Options
-This is a simple options market for users to bet against and for the price of Ethereum on a daily basis. This is a round based game. The round will end automatically from a cron job running on an external process.
+This is a simple binary options market for users to bet against and for the price of Ethereum on a daily basis. This is a round based game. The round will end automatically from a cron job running on an external process. The entire market is located in the smart contract and the price oracle is sourced from MakerDAO.
 
 ## Website
 https://happypsyduck.github.io/simple-options/
+
+## Contract Address
+
 
 ## Running Mirror
 This is a browser based application and is mobile optimized. It is advised to **clone the website in case it goes down**. You need to follow these steps to start running the web interface locally:
