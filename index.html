@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Simple Options - Trustless Binary Options</title>
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css" >
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<script src="js/bignumber.js"></script>
+<script src="js/interface.js"></script>
+<link rel="stylesheet" href="css/ui.css" >
+
+</head>
+
+<body>
+
+<div class="container marketing">
+	<div class="row featurette">
+		<div class="col-md-6" id="logo_div" style="color: black;">
+			Simple Options			
+		</div>
+		<div class="col-md-6" id="metamask_div">	
+			<a href="https://etherscan.io" target="_blank" id="contract_link" style="word-wrap: break-word; color: black; font-size: 12px; font-weight: bold;">N/A</a><br>		
+			<span id="metamask_interactive" onclick="metamaskButtonClick();" style="cursor: pointer; font-size: 14px;">Install MetaMask</span>
+			
+		</div>		
+	</div>
+	<div class="row featurette" style="min-height: 700px;">	
+		<div style="text-align: center; margin-top: 200px;" id="preview_div">
+			Connect MetaMask to view current market data
+		</div>
+		<div id="game_data" style="color: rgb(100,100,100); display: none;">
+			<div class="col-md-12" id="round_div" style="text-align: center; margin-top: 20px; font-size: 24px;">
+				<div style="width: 35px; display: inline-block; height: 40px; vertical-align: middle;">
+					<span class="glyphicon glyphicon-chevron-left" id="last_round_span" aria-hidden="true" style="font-size: 34px; cursor: pointer;" onclick="gotoPreviousRound();"></span>
+				</div>
+				<div style="display: inline-block; margin-left: 25px; margin-right: 25px; vertical-align: middle; width: 200px; height: 40px; padding-top: 3px;" id="round_text">
+					Current Round
+				</div>
+				<div style="width: 35px; height: 40px; display: inline-block; vertical-align: middle;">
+					<span class="glyphicon glyphicon-chevron-right" id="next_round_span" aria-hidden="true" style="font-size: 34px; cursor: pointer;" onclick="gotoNextRound();"></span>
+				</div>
+			</div>
+			<div class="col-md-12" id="header_div" style="text-align: center; margin-top: 20px; font-size: 20px;">
+				Will the price of Ethereum be higher or lower in 24 hours?
+				<br><span style="font-size: 16px;">Start Time: <span id="time_date_span">N/A</span></span>
+			</div>
+			<div class="col-md-12" id="price_div" style="text-align: center; padding: 20px; color: rgb(50,50,50);">
+				N/A
+			</div>
+			<div class="col-md-4 col-md-push-4" id="time_remain_div" style="text-align: center;">
+				<span style="font-weight: bold; font-size: 36px; color: rgb(50,50,50);" id="countdown">N/A</span>
+				<br><span style="font-size: 16px; color: rgb(100,100,100); font-weight: bold;" id="countdown_sub">Before the round ends</span>
+				<br><br><span style="font-size: 16px; color: rgb(50,50,50); font-weight: bold;" id="ticket_div">Current Ticket Cost: <span id="ticket_cost">N/A</span> ETH</span>
+				<br><span style="font-size: 14px" id="data_refresh">Data refresh in: 0 seconds</span>
+			</div>
+			<div class="col-md-4 col-md-pull-4" id="call_div" style="text-align: center;">
+				<span style="font-weight: bold; font-size: 36px; color: rgb(50,50,50);"><span id="call_pot" style="word-wrap: break-word;">N/A</span> ETH</span>
+				<br><span style="font-size: 16px; color: rgb(100,100,100);">Predict Higher</span>
+				<br><button style="background-color: rgb(150,212,0);" class="button_style" id="call_button" onclick="$('#call_ticket_container').slideToggle();">Call</button>
+				<div class="ticket_container" id="call_ticket_container">
+					<span style="font-size: 20px; color: rgb(100,100,100);">Tickets</span><br>
+					<input type="number" step="1" id="call_ticket_num" style="font-size: 20px; width: 90%; text-align: right; background: none; border: 1px solid rgb(100,100,100);" value="1">
+					<br><button style="background-color: rgb(192,192,192);" class="button_style" onclick="buyTicket(0);">Buy</button>
+				</div>
+			</div>
+			<div class="col-md-4" id="put_div" style="text-align: center;">
+				<span style="font-weight: bold; font-size: 36px; color: rgb(50,50,50);"><span id="put_pot" style="word-wrap: break-word;">N/A</span> ETH</span>
+				<br><span style="font-size: 16px; color: rgb(100,100,100);">Predict Lower</span>
+				<br><button style="background-color: rgb(213,13,3);" class="button_style" id="put_button" onclick="$('#put_ticket_container').slideToggle();">Put</button>
+				<div class="ticket_container" id="put_ticket_container">
+					<span style="font-size: 20px; color: rgb(100,100,100);">Tickets</span><br>
+					<input type="number" step="1" id="put_ticket_num" style="font-size: 20px; width: 90%; text-align: right; background: none; border: 1px solid rgb(100,100,100);" value="1">
+					<br><button style="background-color: rgb(192,192,192);" class="button_style" onclick="buyTicket(1);">Buy</button>
+				</div>
+			</div>
+			<div class="col-md-8 col-md-offset-2" style="border-top: 1px solid rgb(200,200,200); text-align: center; padding: 10px; margin-top: 50px;">
+				<span style="font-size: 12px; color: rgb(50,50,50);">My Round Information</span>
+				<div style="margin-left: auto; margin-right: auto; width: 100%; max-width: 400px; text-align: left; margin-top: 10px;">
+					Call Tickets: <span id="my_call_tickets" style="font-weight: bold;">N/A</span> out of <span id="total_call_tickets">N/A</span> total tickets <span id="my_call_percentage">(0%)</span><br>
+					Put Tickets: <span id="my_put_tickets" style="font-weight: bold;">N/A</span> out of <span id="total_put_tickets">N/A</span> total tickets <span id="my_put_percentage">(0%)</span><br>
+					Balance: <span id="my_balance" style="font-weight: bold;">N/A</span> ETH
+					<div id="withdraw_div" style="text-align: center; display: none;" onclick="withdraw();">
+						<button style="background-color: rgb(100,100,100); width: 150px;" class="button_style">Withdraw</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row featurette">	
+		<div class="col-md-8 col-md-offset-2" style="border-top: 1px solid rgb(100,100,100); text-align: center; padding: 10px; margin-bottom: 100px;">
+			<span style="font-size: 12px; color: rgb(50,50,50);">Rules</span>
+			<div style="text-align: left; color: rgb(50,50,50); font-size: 14px;">
+				<ul>
+					<li>Bet against others about what direction you think the price of Ethereum will move 24 hours from the starting point.</li>
+					<li>The entire market in ran on a trustless Ethereum smart contract.</li>
+					<li>MakerDAO ETH/USD oracles are used for price determination to make the contract truly decentralized.</li>
+					<li>Buy Call tickets when you think the price will rise, Put tickets when you think the price will fall.</li>
+					<li>When you lose a round, your funds are used to pay the winners proportionally.</li>
+					<li>When you win a round, you will be rewarded the losers' pot proportionally based on your tickets purchased.</li>
+					<li>Rounds last for 24 hours. Tickets can be bought only during the first 12 hours of each round before the cutoff.</li>
+					<li>The price of a ticket increases every hour until the cutoff, from 0.01 ETH to 1 ETH.</li>					
+					<li>There is a 5% fee pulled from the losers' pot before distribution. There is no fee to withdraw or buy tickets.</li>
+					<li>After the round ends, you can manually close the round if the automated service fails to do so.</li>
+					<li>You can only withdraw from a closed round. You cannot withdraw from an open round.</li>
+					<li>If no one bets against you, even if you are wrong, you will get your funds back.</li>
+					<li>If the price doesn't change or the round ends too late, the round will be a draw and you will get your funds back.</li>	
+					<li>Maximum amount of users per round is 1000.</li>						
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+
+</html>

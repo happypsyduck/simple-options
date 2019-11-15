@@ -1,0 +1,61 @@
+body{
+	background-color: white;
+	color: rgb(50,50,50);
+	background-image: linear-gradient(white, white, rgb(200,200,200), white, white, white);
+	font-size: 16px;
+	font-family: "SF Pro Text","Arial";
+}
+
+#logo_div{
+	text-align: left;
+	font-size: 20px;
+	font-weight: bold;
+	padding: 10px;
+}
+
+#metamask_div{
+	text-align: right;
+	font-size: 16px;
+	padding: 10px;
+}
+
+.button_style{
+	color: white; 
+	padding: 5px; 
+	min-width: 100px;
+	margin: 10px;
+	border-radius: 20px; 
+	font-size: 20px; 
+	border: none;
+}
+
+.ticket_container{
+	margin-left: auto; 
+	margin-right: auto; 
+	width: 100%;
+	max-width: 200px; 
+	border: 1px solid rgb(200,200,200); 
+	padding: 10px; 
+	padding-top: 10px;
+	display: none;
+}
+
+#price_div{
+	font-size: 150px;
+}
+
+#metamask_interactive:hover{
+	text-decoration: underline;
+}
+
+@media screen and (max-width: 991px) {
+	#logo_div{
+		text-align: center;
+	}
+	#metamask_div{
+		text-align: center;
+	}
+	#price_div{
+		font-size: 100px;
+	}
+}
