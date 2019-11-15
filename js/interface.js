@@ -193,7 +193,7 @@ function getMarketInformation(){
   ethereum.sendAsync({
     method: 'eth_call',
     params: callParameters,
-    id: "1",
+    id: "2",
     jsonrpc: "2.0"
   }, function (err, result) {
     if(!err){
@@ -300,7 +300,7 @@ function getTopRound(){
 		ethereum.sendAsync({
 		  method: 'eth_call',
 		  params: callParameters,
-		  id: "1",
+		  id: "3",
 		  jsonrpc: "2.0"
 		}, function (err, result) {
 			if(!err){
@@ -345,7 +345,7 @@ function getUserInfo(callRefresh){
 	ethereum.sendAsync({
 	  method: 'eth_call',
 	  params: callParameters,
-	  id: "1",
+	  id: "4",
 	  jsonrpc: "2.0"
 	}, function (err, result) {
 		if(!err){
@@ -425,7 +425,7 @@ function getTicketCost(){
 	ethereum.sendAsync({
 	  method: 'eth_call',
 	  params: callParameters,
-	  id: "1",
+	  id: "5",
 	  jsonrpc: "2.0"
 	}, function (err, result) {
 		if(!err){
