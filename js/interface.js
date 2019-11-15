@@ -343,6 +343,9 @@ function getUserInfo(callRefresh){
 		if(!err){
 			if(!result["error"]){
 				var return_data = result["result"].substring(2); // Remove the 0x
+				if(return_data.length < 2){
+					alert('0x'+contract_getUserInfo+roundHex+formatted_userAddress);
+				}
 
 				// Obtain the current round number
 		    //_user.numCallTickets, _user.numPutTickets, balance
