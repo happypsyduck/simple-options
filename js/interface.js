@@ -411,6 +411,8 @@ function getUserInfo(callRefresh){
 
 function getTicketCost(){
   // Convert the current time in seconds to hex
+	// First make sure the ticket div is still visible
+	if($("#ticket_div").css("display").toLowerCase() == "none"){ return; }
 	var timeBigNum = new BigNumber(Math.floor((new Date).getTime() / 1000));
 	var timeHex = padleftzero(timeBigNum.toString(16),64); // Convert this number to base 16 (hex) and pad to 64 chars
 
