@@ -202,6 +202,8 @@ function getMarketInformation(){
 	      if(return_data.length < 2){
 		      // This is an anomaly, should not happen
 		      console.log("Error fetching blockchain data, request data: 0x"+contract_getRoundInfo+roundHex+", return data: 0x"+return_data);
+		      getMarketInformation(); // Retry the call
+		      return;
 	      }
 
         // Obtain round information
@@ -308,7 +310,9 @@ function getTopRound(){
 					var return_data = result["result"].substring(2); // Remove the 0x
 					if(return_data.length < 2){
 					      // This is an anomaly, should not happen
-					      console.log("Error fetching blockchain data, request data: 0x"+contract_getCurrentRound+", return data: 0x"+return_data);
+					     	console.log("Error fetching blockchain data, request data: 0x"+contract_getCurrentRound+", return data: 0x"+return_data);
+						getTopRound(); // Retry call
+						return;
 				     	 }
 
 					// Obtain the current round number
@@ -353,7 +357,9 @@ function getUserInfo(callRefresh){
 				var return_data = result["result"].substring(2); // Remove the 0x
 				if(return_data.length < 2){
 				      // This is an anomaly, should not happen
-				      console.log("Error fetching blockchain data, request data: 0x"+contract_getUserInfo+roundHex+formatted_userAddress+", return data: 0x"+return_data);
+				     	console.log("Error fetching blockchain data, request data: 0x"+contract_getUserInfo+roundHex+formatted_userAddress+", return data: 0x"+return_data);
+					getUserInfo(callRefresh); // Retry call
+					return;
 				 }
 
 				// Obtain the current round number
@@ -433,7 +439,9 @@ function getTicketCost(){
 				var return_data = result["result"].substring(2); // Remove the 0x
 				if(return_data.length < 2){
 				      // This is an anomaly, should not happen
-				      console.log("Error fetching blockchain data, request data: 0x"+contract_getTicketCost+timeHex+", return data: 0x"+return_data);
+				      	console.log("Error fetching blockchain data, request data: 0x"+contract_getTicketCost+timeHex+", return data: 0x"+return_data);
+					getTicketCost(); // Retry call
+					return;
 				}
 
 				// Obtain the current round number
