@@ -1,5 +1,5 @@
 # Simple Options
-This is a simple binary options market for users to bet against and for the price of Ethereum on a daily basis. This is a round based game. The round will end automatically from a cron job running on an external process but can be ended, when time expires, by any user. The entire market is located in an Ethereum smart contract and the price oracle is sourced from Compound. This market is trustless and decentralized.
+This is a simple binary options market for users to bet against and for the price of Ethereum on a daily basis. This is a round based game. The round will end automatically from a cron job running on an external process but can be ended, when time expires, by any user. The entire market is located in an Ethereum smart contract and the price oracle is sourced from Compound. This market is trustless and decentralized. Users who correctly predict the market are rewarded with part of the house pot.
 
 ## Website
 https://happypsyduck.github.io/simple-options/
