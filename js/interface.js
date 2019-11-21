@@ -241,7 +241,7 @@ function getMarketInformation() {
           // This is an ongoing round
           var start_date = new Date(parseInt(start_time) * 1000).toUTCString().replace("GMT", "UTC");
           deadlineTime = parseInt(end_time);
-          $("#header_div").html('Will the price of Ethereum be higher or lower in 24 hours?<br><span style="font-size: 16px;">Start Time: <span id="time_date_span">' + start_date + '</span></span>');
+          $("#header_div").html('Will the price of Ethereum be higher or lower in 1 hour?<br><span style="font-size: 16px;">Start Time: <span id="time_date_span">' + start_date + '</span></span>');
           $("#price_div").html("$" + start_price.toFixed(2).toString(10));
           $("#countdown_sub").show();
 
