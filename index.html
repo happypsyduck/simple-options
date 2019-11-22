@@ -27,13 +27,13 @@
 		</div>
 		<div class="col-md-6" id="metamask_div">	
 			<a href="https://etherscan.io" target="_blank" id="contract_link" style="word-wrap: break-word; color: black; font-size: 12px; font-weight: bold;">N/A</a><br>		
-			<span id="metamask_interactive" onclick="metamaskButtonClick();" style="cursor: pointer; font-size: 14px; display: none;">Install MetaMask</span>
+			<span id="metamask_interactive" onclick="metamaskButtonClick();" style="cursor: pointer; font-size: 14px;">Install MetaMask</span>
 			
 		</div>		
 	</div>
-	<div class="row featurette" style="min-height: 700px;">	
+	<div class="row featurette" style="min-height: 500px;" id="game_div">	
 		<div style="text-align: center; margin-top: 200px;" id="preview_div">
-			<strong>Simple Options is upgrading its contract. Version 2 coming soon!</strong>
+			Please connect to MetaMask to view the market
 		</div>
 		<div id="game_data" style="color: rgb(100,100,100); display: none;">
 			<div class="col-md-12" id="round_div" style="text-align: center; margin-top: 20px; font-size: 24px;">
@@ -48,20 +48,24 @@
 				</div>
 			</div>
 			<div class="col-md-12" id="header_div" style="text-align: center; margin-top: 20px; font-size: 20px;">
-				Will the price of Ethereum be higher or lower in 24 hours?
+				Will the price of Ethereum be higher or lower in 1 hour?
 				<br><span style="font-size: 16px;">Start Time: <span id="time_date_span">N/A</span></span>
 			</div>
-			<div class="col-md-12" id="price_div" style="text-align: center; padding: 20px; color: rgb(50,50,50);">
+			<div class="col-md-12" id="price_div" style="text-align: center; padding-top: 20px; color: rgb(50,50,50);">
 				N/A
 			</div>
+			<div class="col-md-12" id="house_pot_div" style="text-align: center; margin-bottom: 60px;">
+				<span style="font-weight: bold; font-size: 36px; color: rgb(50,50,50);"><span id="house_pot" style="word-wrap: break-word;">N/A</span> ETH</span>
+				<br><span style="font-size: 16px; color: rgb(100,100,100); font-weight: bold;" id="house_pot_description">House Pot</span>
+			</div>
 			<div class="col-md-4 col-md-push-4" id="time_remain_div" style="text-align: center;">
-				<span style="font-weight: bold; font-size: 36px; color: rgb(50,50,50);" id="countdown">N/A</span>
+				<span style="font-weight: bold; font-size: 32px; color: rgb(50,50,50);" id="countdown">N/A</span>
 				<br><span style="font-size: 16px; color: rgb(100,100,100); font-weight: bold;" id="countdown_sub">Before the round ends</span>
 				<br><br><span style="font-size: 16px; color: rgb(50,50,50); font-weight: bold;" id="ticket_div">Current Ticket Cost: <span id="ticket_cost">N/A</span> ETH</span>
 				<br><span style="font-size: 14px" id="data_refresh">Data refresh in: 0 seconds</span>
 			</div>
 			<div class="col-md-4 col-md-pull-4" id="call_div" style="text-align: center;">
-				<span style="font-weight: bold; font-size: 36px; color: rgb(50,50,50);"><span id="call_pot" style="word-wrap: break-word;">N/A</span> ETH</span>
+				<span style="font-weight: bold; font-size: 32px; color: rgb(50,50,50);"><span id="call_pot" style="word-wrap: break-word;">N/A</span> ETH</span>
 				<br><span style="font-size: 16px; color: rgb(100,100,100);">Predict Higher</span>
 				<br><button style="background-color: rgb(150,212,0);" class="button_style" id="call_button" onclick="$('#call_ticket_container').slideToggle();">Call</button>
 				<div class="ticket_container" id="call_ticket_container">
@@ -71,7 +75,7 @@
 				</div>
 			</div>
 			<div class="col-md-4" id="put_div" style="text-align: center;">
-				<span style="font-weight: bold; font-size: 36px; color: rgb(50,50,50);"><span id="put_pot" style="word-wrap: break-word;">N/A</span> ETH</span>
+				<span style="font-weight: bold; font-size: 32px; color: rgb(50,50,50);"><span id="put_pot" style="word-wrap: break-word;">N/A</span> ETH</span>
 				<br><span style="font-size: 16px; color: rgb(100,100,100);">Predict Lower</span>
 				<br><button style="background-color: rgb(213,13,3);" class="button_style" id="put_button" onclick="$('#put_ticket_container').slideToggle();">Put</button>
 				<div class="ticket_container" id="put_ticket_container">
@@ -98,21 +102,26 @@
 			<span style="font-size: 12px; color: rgb(50,50,50);">Rules</span>
 			<div style="text-align: left; color: rgb(50,50,50); font-size: 14px;">
 				<ul>
-					<li>Bet against others about what direction you think the price of Ethereum will move 24 hours from the starting point.</li>
+					<li>Bet against others about what direction you think the price of Ethereum will in 1 hour from the starting point.</li>
+					<li>Winners will split the house pot, up to 50%, depending on the odds of winning.</li>
+					<li>When you win, you will be able to withdraw what you put in <strong>plus</strong> your part of house pot.</li>
+					<li>Winners will be rewarded a percentage of the house pot proportionally based on their tickets purchased.</li>
 					<li>The entire market in ran on a trustless Ethereum smart contract.</li>
-					<li><strong>MakerDAO ETH/USD oracles-v1</strong> are used for price determination to make the contract truly decentralized.</li>
-					<li>Buy Call tickets when you think the price will rise, Put tickets when you think the price will fall.</li>
-					<li>When you lose a round, your funds are used to pay the winners proportionally.</li>
-					<li>When you win a round, you will be rewarded the losers' pot proportionally based on your tickets purchased.</li>
-					<li>Rounds last for 24 hours. Tickets can be bought only during the first 12 hours of each round before the cutoff.</li>
-					<li>The price of a ticket <strong>increases every hour</strong> until the cutoff, from <strong>0.01 ETH to 1 ETH.</strong></li>
-					<li>There is a 5% fee pulled from the losers' pot before distribution. There is no fee to withdraw or buy tickets.</li>
+					<li>Compound.Finance price oracles are used for price determination as they update frequently.</li>
+					<li>Buy <strong>Call</strong> tickets when you think the price will rise, <strong>Put</strong> tickets when you think the price will fall.</li>
+					<li>When you lose a round, your funds are placed into the house pot.</li>
+					<li>Rounds last for <strong>only 1 hour</strong>. Tickets can be bought during the <strong>first 30 minutes.</strong></li>					
+					<li>Odds of winning are (Total Winning Tickets / Total Tickets Bought).</li>
+					<li>Percentage paid out is calculated as: 10% + (40% x Odds of Winning).</li>
+					<li>Minimum payout to winners is 10% of house pot.</li>
+					<li>The price of a ticket is typically a tenth the house pot. This is constant during a Round.</li>
+					<li>There is a 5% fee pulled from the house pot distributed to the winners. There is no fee to withdraw or buy tickets.</li>
 					<li>After the round ends, you can manually close the round if the automated service fails to do so.</li>
+					<li>Gas for closing a round is paid for from the house pot.</li>
 					<li>You can only withdraw from a closed round. You cannot withdraw from an open round.</li>
-					<li>If no one bets against you, even if you are wrong, you will get your funds back.</li>
+					<li>To withdraw a balance from a previous round, go back to the round with the balance and then withdraw.</li>
 					<li>If the price doesn't change or the round ends too late, the round will be a draw and you will get your funds back.</li>	
 					<li>Maximum amount of users per round is 1000.</li>
-					<li>To withdraw a balance from a previous round, go back to the round with the balance and then withdraw.</li>
 				</ul>
 			</div>
 		</div>

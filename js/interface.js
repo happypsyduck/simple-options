@@ -3,7 +3,7 @@
 var detectMetamask = false; // Default value is that metamask is not on the system
 var metamaskConnected = false;
 var userAddress = "";
-var contractAddress = "0x0FBfBC1929052f0119439ca1E8184B9dDeDbe1E7";
+var contractAddress = "0x9f16d6Ee1b739B460a1eE57FbD25281693B5e677";
 var refreshTime = 0;
 var roundTransition = false;
 var deadlineTime = 0;
@@ -17,10 +17,11 @@ var contract_buyCall = "8e0f0d61";
 var contract_buyPut = "e8651aa0";
 var contract_getCurrentRound = "8a19c8bc";
 var contract_startNewRound = "bd85948c";
-var contract_getTicketCost = "a82c8cd6"; // requires uint
+var contract_getTicketCost = "6b817337";
 var contract_getRoundInfo = "cb989f64"; // Requires uint
 var contract_getUserInfo = "a754ecb0"; // Requires uint and address
 var contract_withdraw = "155dd5ee"; // Requires uint for round
+var contract_addFunds = "cb899a28";
 
 $(document).ready(function() {
   // This is ran when the page has fully loaded
@@ -125,6 +126,7 @@ function transitionRoundInformation(targetRound) {
 
             $("#call_ticket_container").hide();
             $("#put_ticket_container").hide();
+            $("#game_div").css("min-height", "850px"); // Change the minimum height
 
             // Now query the market information
             getMarketInformation();
@@ -211,8 +213,8 @@ function getMarketInformation() {
         }
 
         // Obtain round information
-        // startPriceWei (uint256), endPriceWei (uint256), startTime (uint256), endTime (uint256), totalCallPotWei (uint256), totalPutPotWei (uint256), totalcalltickets (uint256), totalputticket (uint256)
-        // roundstatus (uint256)
+        // startPriceWei (uint256), endPriceWei (uint256), startTime (uint256), endTime (uint256), totalCallPotWei (uint256), totalPutPotWei (uint256), totalcalltickets (uint256), totalputticket (uint256),
+        // roundstatus (uint256), potsize (uint256)
         var start_price_wei = new BigNumber('0x' + return_data.substring(0, 64));
         var end_price_wei = new BigNumber('0x' + return_data.substring(64, 64 * 2));
         var start_time = new BigNumber('0x' + return_data.substring(64 * 2, 64 * 3));
@@ -222,6 +224,7 @@ function getMarketInformation() {
         var total_call_tickets = new BigNumber('0x' + return_data.substring(64 * 6, 64 * 7));
         var total_put_tickets = new BigNumber('0x' + return_data.substring(64 * 7, 64 * 8));
         var round_status = new BigNumber('0x' + return_data.substring(64 * 8, 64 * 9));
+        var house_pot_wei = new BigNumber('0x' + return_data.substring(64 * 9, 64 * 10));
 
         // Dividing factor
         var divfactor = new BigNumber('1000000000000000000'); // Divide factor to get ETH
@@ -231,13 +234,14 @@ function getMarketInformation() {
         var end_price = end_price_wei.div(divfactor);
         var total_call = total_call_wei.div(divfactor);
         var total_put = total_put_wei.div(divfactor);
+        var house_pot = house_pot_wei.div(divfactor);
 
         // Now fill in the areas
         if (round_status == 0) {
           // This is an ongoing round
           var start_date = new Date(parseInt(start_time) * 1000).toUTCString().replace("GMT", "UTC");
           deadlineTime = parseInt(end_time);
-          $("#header_div").html('Will the price of Ethereum be higher or lower in 24 hours?<br><span style="font-size: 16px;">Start Time: <span id="time_date_span">' + start_date + '</span></span>');
+          $("#header_div").html('Will the price of Ethereum be higher or lower in 1 hour?<br><span style="font-size: 16px;">Start Time: <span id="time_date_span">' + start_date + '</span></span>');
           $("#price_div").html("$" + start_price.toFixed(2).toString(10));
           $("#countdown_sub").show();
 
@@ -252,6 +256,7 @@ function getMarketInformation() {
           disableBuyOptions();
           $("#countdown_sub").hide();
           $("#data_refresh").hide();
+          $("#house_pot_description").html("House Pot");
 
           if (round_status == 1) {
             // Round has been closed out, there is a winner
@@ -259,16 +264,28 @@ function getMarketInformation() {
               // Callers won
               $("#countdown").html("Price Increased<br>Calls Won")
               $("#countdown").css("color", "rgb(100,150,0)");
+
+              // Calculate payout percent
+              var payout_percent = new BigNumber(1).minus(total_call_tickets.div(total_call_tickets.plus(total_put_tickets)));
+              payout_percent = payout_percent.multipliedBy(80).plus(10).dp(2);
+              $("#house_pot_description").html("Payout: " + payout_percent + "%");
+
             } else {
               $("#countdown").html("Price Decreased<br>Puts Won")
               $("#countdown").css("color", "rgb(213,13,3)");
+
+              // Calculate payout percent
+              var payout_percent = new BigNumber(1).minus(total_put_tickets.div(total_call_tickets.plus(total_put_tickets)));
+              payout_percent = payout_percent.multipliedBy(80).plus(10).dp(2);
+              $("#house_pot_description").html("Payout: " + payout_percent + "%");
             }
+
           } else if (round_status == 2) {
             // Round was closed too late, price is stale
             $("#countdown").html("No Contest<br>Stale Price")
             $("#countdown").css("color", "rgb(50,50,50)");
           } else if (round_status == 3) {
-            // Round was closed due to lack of participants or no competition
+            // Round was closed due to lack of participants or no price change
             $("#countdown").html("No Contest")
             $("#countdown").css("color", "rgb(50,50,50)");
           }
@@ -278,6 +295,7 @@ function getMarketInformation() {
         $("#put_pot").html(total_put.toString(10));
         $("#total_call_tickets").html(total_call_tickets.toString(10));
         $("#total_put_tickets").html(total_put_tickets.toString(10));
+        $("#house_pot").html(house_pot.dp(6).toString(10)); // Round to 6 decimal places
 
         if ($("#game_data").css("display").toLowerCase() == "none") {
           // The display is not visible, show it
@@ -429,12 +447,10 @@ function getTicketCost() {
   if ($("#ticket_div").css("display").toLowerCase() == "none") {
     return;
   }
-  var timeBigNum = new BigNumber(Math.floor((new Date).getTime() / 1000));
-  var timeHex = padleftzero(timeBigNum.toString(16), 64); // Convert this number to base 16 (hex) and pad to 64 chars
 
   callParameters = [{
     to: contractAddress,
-    data: '0x' + contract_getTicketCost + timeHex // Add this when the contract gets updated
+    data: '0x' + contract_getTicketCost
   }, "latest"];
 
   // Get data from blockchain
@@ -536,7 +552,7 @@ function adjustCountDown() {
   var seconds = Math.floor(countdownTime % 60);
 
   $("#countdown").html(padleftzero(hours, 2) + ":" + padleftzero(minutes, 2) + ":" + padleftzero(seconds, 2));
-  if (countdownTime <= 43200) {
+  if (countdownTime <= 1800) {
     disableBuyOptions();
   } else {
     enableBuyOptions();
@@ -662,6 +678,23 @@ function buyTicket(direction) {
     from: userAddress,
     value: ticket_total_wei.toString(16), // Convert to Hex
     data: '0x' + contract_selected
+  }];
+
+  sendETHTransaction(transactionParameters);
+}
+
+function addHouseFunds(eth_amount) {
+  // This function is not used on the front-end but can trigger an amount added to the contract
+  var amount_total = new BigNumber(eth_amount);
+  var amount_total_wei = amount_total.multipliedBy("1000000000000000000"); // Get as wei
+
+  const transactionParameters = [{
+    to: contractAddress,
+    gasPrice: '0x218711A00',
+    gas: '0x30D40',
+    from: userAddress,
+    value: amount_total_wei.toString(16), // Convert to Hex
+    data: '0x' + contract_addFunds
   }];
 
   sendETHTransaction(transactionParameters);
