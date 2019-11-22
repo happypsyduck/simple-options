@@ -592,8 +592,17 @@ function enableBuyOptions() {
 function enableCloseOption() {
   disableBuyOptions();
   // If the automated system hasn't shut down the round yet, give the user the option to force it closed
-  if ($("#countdown").html != '<span style="text-decoration: underline; cursor: pointer;" onclick="endRound();">End Round</a>') {
-    $("#countdown").html('<span style="text-decoration: underline; cursor: pointer;" onclick="endRound();">End Round</a>');
+  var call_tickets = new BigNumber($("#total_call_tickets").html());
+  var put_tickets = new BigNumber($("#total_put_tickets").html());
+  var round_text = "End Round";
+  if(call_tickets.comparedTo(0) == 0){
+    if(call_tickets.comparedTo(put_tickets) == 0){
+      // Same value, which is 0
+      round_text = "Start New Round";
+    }
+  }
+  if ($("#countdown").html != '<span style="text-decoration: underline; cursor: pointer;" onclick="endRound();">'+round_text+'</a>') {
+    $("#countdown").html('<span style="text-decoration: underline; cursor: pointer;" onclick="endRound();">'+round_text+'</a>');
     $("#countdown").css("color", "rgb(50,50,50)");
     $("#countdown_sub").hide();
   }
