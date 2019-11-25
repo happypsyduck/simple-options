@@ -235,6 +235,8 @@ function getMarketInformation() {
         var total_call = total_call_wei.div(divfactor);
         var total_put = total_put_wei.div(divfactor);
         var house_pot = house_pot_wei.div(divfactor);
+        
+        $("#house_pot_description").html("House Pot");
 
         // Now fill in the areas
         if (round_status == 0) {
@@ -256,7 +258,6 @@ function getMarketInformation() {
           disableBuyOptions();
           $("#countdown_sub").hide();
           $("#data_refresh").hide();
-          $("#house_pot_description").html("House Pot");
 
           if (round_status == 1) {
             // Round has been closed out, there is a winner
