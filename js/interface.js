@@ -443,11 +443,6 @@ function getUserInfo(callRefresh) {
 
 function getTicketCost() {
   // Convert the current time in seconds to hex
-  // First make sure the ticket div is still visible
-  if ($("#ticket_div").css("display").toLowerCase() == "none") {
-    return;
-  }
-
   callParameters = [{
     to: contractAddress,
     data: '0x' + contract_getTicketCost
@@ -516,7 +511,10 @@ function refreshRoundInformation() {
       getMarketInformation();
 
       // Next get ticket price
-      getTicketCost();
+      // First make sure the ticket div is still visible
+      if ($("#ticket_div").css("display").toLowerCase() != "none") {
+        getTicketCost();
+      }      
 
       // Now finally get the user information for the round
       getUserInfo(true);
