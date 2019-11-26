@@ -269,7 +269,9 @@ function getMarketInformation() {
               // Calculate payout percent
               var payout_percent = new BigNumber(1).minus(total_call_tickets.div(total_call_tickets.plus(total_put_tickets)));
               payout_percent = payout_percent.multipliedBy(80).plus(10).dp(2);
-              $("#house_pot_description").html("Payout: " + payout_percent + "%");
+              if(total_call_tickets.comparedTo(0) > 0){
+                $("#house_pot_description").html("Payout: " + payout_percent + "%");
+              }
 
             } else {
               $("#countdown").html("Price Decreased<br>Puts Won")
@@ -278,7 +280,9 @@ function getMarketInformation() {
               // Calculate payout percent
               var payout_percent = new BigNumber(1).minus(total_put_tickets.div(total_call_tickets.plus(total_put_tickets)));
               payout_percent = payout_percent.multipliedBy(80).plus(10).dp(2);
-              $("#house_pot_description").html("Payout: " + payout_percent + "%");
+              if(total_put_tickets.comparedTo(0) > 0){
+                $("#house_pot_description").html("Payout: " + payout_percent + "%");
+              }
             }
 
           } else if (round_status == 2) {
