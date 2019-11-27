@@ -268,7 +268,7 @@ function getMarketInformation() {
 
               // Calculate payout percent
               var payout_percent = new BigNumber(1).minus(total_call_tickets.div(total_call_tickets.plus(total_put_tickets)));
-              payout_percent = payout_percent.multipliedBy(40).plus(10).dp(2);
+              payout_percent = payout_percent.multipliedBy(80).plus(10).dp(2);
               if(total_call_tickets.comparedTo(0) > 0){
                 $("#house_pot_description").html("Max Payout: " + payout_percent + "%");
               }
@@ -279,7 +279,7 @@ function getMarketInformation() {
 
               // Calculate payout percent
               var payout_percent = new BigNumber(1).minus(total_put_tickets.div(total_call_tickets.plus(total_put_tickets)));
-              payout_percent = payout_percent.multipliedBy(40).plus(10).dp(2);
+              payout_percent = payout_percent.multipliedBy(80).plus(10).dp(2);
               if(total_put_tickets.comparedTo(0) > 0){
                 $("#house_pot_description").html("Max Payout: " + payout_percent + "%");
               }
@@ -597,17 +597,17 @@ function enableCloseOption() {
   // If the automated system hasn't shut down the round yet, give the user the option to force it closed
   var call_tickets = new BigNumber($("#total_call_tickets").html());
   var put_tickets = new BigNumber($("#total_put_tickets").html());
-  var round_text = "End Round";
-  if(call_tickets.comparedTo(0) == 0){
-    if(call_tickets.comparedTo(put_tickets) == 0){
-      // Same value, which is 0
-      round_text = "Start New Round";
-    }
+  var round_text = "Start New Round";
+  if(call_tickets.comparedTo(0) > 0 || put_tickets.comparedTo(0) > 0){
+    // This is an active round
+      round_text = "End Round";
   }
   if ($("#countdown").html != '<span style="text-decoration: underline; cursor: pointer;" onclick="endRound();">'+round_text+'</a>') {
     $("#countdown").html('<span style="text-decoration: underline; cursor: pointer;" onclick="endRound();">'+round_text+'</a>');
     $("#countdown").css("color", "rgb(50,50,50)");
-    $("#countdown_sub").hide();
+    $("#countdown_sub").css("color", "rgb(50,50,50)");
+    $("#countdown_sub").html("Gas fees will be reimbursed");
+    $("#countdown_sub").show();
   }
 }
 
