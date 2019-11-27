@@ -3,7 +3,7 @@
 var detectMetamask = false; // Default value is that metamask is not on the system
 var metamaskConnected = false;
 var userAddress = "";
-var contractAddress = "0x9f16d6Ee1b739B460a1eE57FbD25281693B5e677";
+var contractAddress = "0x008FaF03038c810E478013d85659e25199a79E77"; // Version 3 contract
 var refreshTime = 0;
 var roundTransition = false;
 var deadlineTime = 0;
