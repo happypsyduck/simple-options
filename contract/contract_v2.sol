@@ -295,7 +295,7 @@ contract Simple_Options_v2 {
     uint256 usdcPrice = oracle.getUnderlyingPrice(cUSDCAddress); // This returns the price in relation to 1 ether
     usdcPrice = usdcPrice / 1000000000000; // Normalize the price value
     usdcPrice = 1000000000000000000000 / usdcPrice; // The precision level will be 3 decimal places
-    return (usdcPrice * 1000000000000000 + currentRound * 1 ether); // Now back to Wei units
+    return (usdcPrice * 1000000000000000); // Now back to Wei units
   }
 
   // Distributes the players winnings from the house pot and returns the fee
