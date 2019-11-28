@@ -5,7 +5,7 @@ This is a simple binary options market for users to bet against and for the pric
 https://happypsyduck.github.io/simple-options/
 
 ## Contract Address
-https://etherscan.io/address/0x9f16d6ee1b739b460a1ee57fbd25281693b5e677
+https://etherscan.io/address/0x008FaF03038c810E478013d85659e25199a79E77
 
 ## Running Mirror
 This is a browser based application and is mobile optimized. It is advised to **clone the website in case it goes down**. You need to follow these steps to start running the web interface locally:
