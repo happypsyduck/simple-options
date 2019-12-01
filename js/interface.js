@@ -263,7 +263,7 @@ function getMarketInformation() {
             // Round has been closed out, there is a winner
             if (end_price.comparedTo(start_price) > 0) {
               // Callers won
-              $("#countdown").html("Price Increased<br>Calls Won")
+              $("#countdown").html("Price Increased<br>Calls Won");
               $("#countdown").css("color", "rgb(100,150,0)");
 
               // Calculate payout percent
@@ -274,7 +274,7 @@ function getMarketInformation() {
               }
 
             } else {
-              $("#countdown").html("Price Decreased<br>Puts Won")
+              $("#countdown").html("Price Decreased<br>Puts Won");
               $("#countdown").css("color", "rgb(213,13,3)");
 
               // Calculate payout percent
@@ -287,11 +287,14 @@ function getMarketInformation() {
 
           } else if (round_status == 2) {
             // Round was closed too late, price is stale
-            $("#countdown").html("No Contest<br>Stale Price")
+            $("#countdown").html("No Contest<br>Stale Price");
             $("#countdown").css("color", "rgb(50,50,50)");
           } else if (round_status == 3) {
             // Round was closed due to lack of participants or no price change
-            $("#countdown").html("No Contest")
+            $("#countdown").html("No Contest");
+            if (end_price.comparedTo(start_price) == 0) {
+              $("#countdown").html("No Contest<br>No Price Change");
+            }
             $("#countdown").css("color", "rgb(50,50,50)");
           }
         }
